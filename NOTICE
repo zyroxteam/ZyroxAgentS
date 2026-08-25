@@ -1,0 +1,20 @@
+ZYROX
+Copyright 2026 ZYROX
+
+ZYROX is a rebranded distribution of the ollama-termux installer and ships
+the pre-built ollama-termux Android ARM64 runtime binaries. It preserves the
+upstream MIT license and attribution chain.
+
+Upstream projects:
+- ollama-termux (Termux-first Android ARM64 fork of Ollama, MIT):
+  https://github.com/DioNanos/ollama-termux
+  Copyright 2026 Davide A. Guglielmi
+- Ollama (MIT): https://github.com/ollama/ollama — Copyright Ollama
+- llama.cpp (MIT): https://github.com/ggml-org/llama.cpp
+
+The runtime downloaded and installed by ZYROX (ollama, llama-server and ggml
+backend libraries) is built and published by the upstream ollama-termux
+project. ZYROX verifies every download with SHA256 before installing.
+
+Gemini cloud chat uses the Google Generative Language API
+(generativelanguage.googleapis.com) with the user's own API key.

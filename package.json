@@ -1,0 +1,52 @@
+{
+  "name": "zyrox",
+  "version": "1.0.0",
+  "description": "ZYROX — AI toolkit for Termux. Local LLMs on Android (offline) + Gemini cloud chat, one command.",
+  "keywords": [
+    "zyrox",
+    "ai",
+    "llm",
+    "termux",
+    "android",
+    "arm64",
+    "cli",
+    "inference",
+    "gemini",
+    "ollama"
+  ],
+  "homepage": "https://github.com/GITHUB_USER/ZyroxAgentS#readme",
+  "bugs": {
+    "url": "https://github.com/GITHUB_USER/ZyroxAgentS/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GITHUB_USER/ZyroxAgentS.git"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "os": [
+    "android"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "main": "zyrox.js",
+  "files": [
+    "zyrox.js",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "NOTICE",
+    "docs/"
+  ],
+  "bin": {
+    "zyrox": "zyrox.js"
+  },
+  "scripts": {
+    "test": "node --test tests/"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
