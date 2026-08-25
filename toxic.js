@@ -127,7 +127,7 @@ function availableGeminiKeys() {
 const HELP_TEXT = `TOXIC v${ZYROX_VERSION} — ZYROX AGENT core — AI toolkit for Termux
 
 Usage:
-  toxic                     Smart start: local models ho toh menu, warna FREE Gemini chat
+  toxic                     FREE Gemini chat (6 keys) — seedha kaam karta hai
   toxic install             Install / repair the ZYROX runtime
   toxic update              Update the ZYROX runtime
   toxic uninstall           Remove the ZYROX runtime
@@ -601,6 +601,7 @@ function statusRuntime() {
     (cooling > 0 ? ` — ${cooling} cooling down` : ' — all ready'));
   console.log(`Auto key switch : ON (429/401/403 → next key, 60s cooldown)`);
   console.log(`Gemini model    : ${process.env.GEMINI_MODEL || 'auto (' + GEMINI_FALLBACK_MODELS.join(' → ') + ')'}`);
+  console.log(`Menu            : toxic menu (cloud default hai — sambhal ke)`);
 }
 
 // ---------------------------------------------------------------------------
@@ -795,19 +796,13 @@ async function main(argv) {
       await installRuntime();
       return;
     }
+    // Menu ka default cloud model retired/paid hai (410/403) — isliye
+    // bare toxic HAMESHA working Gemini chat se shuru hota hai.
     const models = localModelCount();
-    if (models > 0) {
-      // Local models maujood hain — full menu kholo (cloud models skip karo!).
-      log(`${models} local model(s) mile — menu khol raha hoon...`);
-      log('Tip: cloud (:cloud) models ke liye Ollama subscription chahiye — local ya gemini use karo.');
-      forwardToRuntime([]);
-      return;
-    }
-    // Koi local model nahi + cloud broken — Gemini chat se shuru karo (bundled keys, free).
     console.log('');
-    log('koi local model nahi mila — FREE Gemini chat shuru kar raha hoon (6 keys bundled)');
-    log('local model chahiye toh: toxic pull qwen3.5:4b  |  full menu: toxic menu');
-    console.log('');
+    log(`TOXIC v${ZYROX_VERSION} · local models: ${models}`);
+    log('agents/menu: toxic menu · local chat: toxic run <model>');
+    log('Gemini chat shuru — free, 6 keys bundled ("exit" se bahar)\n');
     await geminiMain([]);
     return;
   }
@@ -827,6 +822,8 @@ async function main(argv) {
       return;
     case 'menu':
       // Original interactive menu (local models + agents).
+      log('note: menu ka default cloud model paid/retired hai (403/410).');
+      log('wahan local model chuno, ya agents ke liye use karo. Bahar: Ctrl+C');
       forwardToRuntime([]);
       return;
     case 'chat':

@@ -1,5 +1,14 @@
 # TOXIC / ZYROX AGENT Changelog
 
+## 1.4.0 — 2026-08-25
+
+### 🎯 Menu bypass — hamesha working AI se start
+
+- Bare `toxic` ab HAMESHA FREE Gemini chat se shuru hota hai
+  (menu ka default cloud model retired/paid hai — 410/403 errors)
+- `toxic menu` par ab pehle warning dikhti hai
+- Startup par version + local model count dikhta hai
+
 ## 1.3.0 — 2026-08-25
 
 ### 🛠️ Smart start (cloud-error fix)
