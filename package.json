@@ -1,7 +1,7 @@
 {
-  "name": "zyrox",
-  "version": "1.1.0",
-  "description": "ZYROX — AI toolkit for Termux. Local LLMs on Android (offline) + Gemini cloud chat (6 keys, auto-switch), one command.",
+  "name": "toxic",
+  "version": "1.2.0",
+  "description": "TOXIC (ZYROX AGENT core) — AI toolkit for Termux. Local LLMs on Android (offline) + Gemini cloud chat (6 keys, auto-switch).",
   "keywords": [
     "zyrox",
     "ai",
@@ -32,16 +32,16 @@
   "cpu": [
     "arm64"
   ],
-  "main": "zyrox.js",
+  "main": "toxic.js",
   "files": [
-    "zyrox.js",
+    "toxic.js",
     "README.md",
     "CHANGELOG.md",
     "LICENSE",
     "docs/"
   ],
   "bin": {
-    "zyrox": "zyrox.js"
+    "toxic": "toxic.js"
   },
   "scripts": {
     "test": "node --test tests/"

@@ -11,7 +11,7 @@ const {
   validateArchiveListing,
   validateArchiveTypes,
   validateExtractedTree,
-} = require('../zyrox.js');
+} = require('../toxic.js');
 
 const archiveListing = [
   './',
@@ -76,7 +76,7 @@ test('archive metadata rejects links, special entries and privileged modes', () 
 });
 
 test('extracted payload rejects links and special entries', () => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zyrox-installer-test-'));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'toxic-installer-test-'));
   try {
     fs.mkdirSync(path.join(root, 'bin'), { recursive: true });
     fs.mkdirSync(path.join(root, 'lib', 'ollama'), { recursive: true });
@@ -96,7 +96,7 @@ test('extracted payload rejects links and special entries', () => {
 });
 
 test('runtime activation is atomic and rolls back if wrapper replacement fails', () => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zyrox-activation-test-'));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'toxic-activation-test-'));
   try {
     const liveLib = path.join(root, 'live-lib');
     const liveWrapper = path.join(root, 'ollama');

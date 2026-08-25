@@ -1,4 +1,13 @@
-# ZYROX Changelog
+# TOXIC / ZYROX AGENT Changelog
+
+## 1.2.0 — 2026-08-25
+
+### 🔒 Command change: `zyrox` → `toxic`
+
+- Naya command: **`toxic`** (`toxic install`, `toxic gemini`, `toxic serve`, ...)
+- Purana `zyrox` command ab kaam NAHI karta — secret command style
+- Branding ab bhi ZYROX AGENT hai, sirf trigger word badla hai
+- File rename: `zyrox.js` → `toxic.js` (same core)
 
 ## 1.1.0 — 2026-08-25
 

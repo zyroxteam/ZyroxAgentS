@@ -24,8 +24,8 @@ Local LLMs phone par (100% offline) · Gemini cloud chat · Coding agents
 | Feature | Detail |
 |---|---|
 | 🤖 **Local AI models** | Qwen, Gemma, DeepSeek… phone par hi chalte hain — **bina internet, bina API key** |
-| ☁️ **Gemini cloud chat** | Apni Gemini API key se — `zyrox gemini "question"` |
-| 🧑‍💻 **Coding agents** | Qwen Code (2000 free req/day), Codex, Pi — `zyrox launch` |
+| ☁️ **Gemini cloud chat** | Apni Gemini API key se — `toxic gemini "question"` |
+| 🧑‍💻 **Coding agents** | Qwen Code (2000 free req/day), Codex, Pi — `toxic launch` |
 | 🔒 **Secure install** | Har download SHA256-verified + archive safety checks |
 | 🪶 **Lightweight** | Ek hi command, zero npm dependencies |
 
@@ -35,21 +35,23 @@ Local LLMs phone par (100% offline) · Gemini cloud chat · Coding agents
 pkg update && pkg upgrade -y
 pkg install nodejs-lts git -y
 npm install -g github:zyroxteam/ZyroxAgentS
-zyrox install
+toxic install
 ```
 
-Bas! Ab `zyrox` type karo.
+Bas! Ab `toxic` type karo.
+
+> 🔒 **Note:** Command naam `toxic` hai (v1.2.0 se). Purana `zyrox` command ab kaam nahi karta — secret command style. Purane version se update karne ke liye: `npm rm -g zyrox` phir upar wala install command.
 
 ## 🚀 Usage
 
 ### 1️⃣ Local AI (offline, free)
 
 ```bash
-zyrox serve &              # server start (background)
-zyrox pull qwen3.5:4b      # model download (8GB RAM phones)
-zyrox run qwen3.5:4b       # chat — airplane mode mein bhi chalega!
-zyrox list                 # installed models
-zyrox stop                 # running models stop
+toxic serve &              # server start (background)
+toxic pull qwen3.5:4b      # model download (8GB RAM phones)
+toxic run qwen3.5:4b       # chat — airplane mode mein bhi chalega!
+toxic list                 # installed models
+toxic stop                 # running models stop
 ```
 
 **Apne RAM ke hisaab se model:**
@@ -63,8 +65,8 @@ zyrox stop                 # running models stop
 ### 2️⃣ Gemini cloud chat — 6 built-in keys, AUTO-SWITCH 🔑
 
 ```bash
-zyrox gemini "explain quantum computing in simple words"
-zyrox gemini                          # interactive chat mode
+toxic gemini "explain quantum computing in simple words"
+toxic gemini                          # interactive chat mode
 ```
 
 **Kaise auto-switch hota hai:**
@@ -84,19 +86,19 @@ export GEMINI_MODEL="gemini-3.6-flash"    # (optional) model override
 ### 3️⃣ Coding agents
 
 ```bash
-zyrox launch qwen      # Qwen Code — FREE 2000 requests/day (browser sign-in)
-zyrox launch codex     # OpenAI Codex (API key / ChatGPT account)
-zyrox launch pi        # Pi agent
+toxic launch qwen      # Qwen Code — FREE 2000 requests/day (browser sign-in)
+toxic launch codex     # OpenAI Codex (API key / ChatGPT account)
+toxic launch pi        # Pi agent
 ```
 
 ### 4️⃣ Menu
 
 ```bash
-zyrox                  # interactive menu — sab options ek jagah
-zyrox status           # installation status
-zyrox help             # all commands
-zyrox update           # runtime update
-zyrox uninstall        # remove runtime
+toxic                  # interactive menu — sab options ek jagah
+toxic status           # installation status
+toxic help             # all commands
+toxic update           # runtime update
+toxic uninstall        # remove runtime
 ```
 
 ## 📖 Docs

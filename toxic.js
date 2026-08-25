@@ -3,14 +3,14 @@
  * ZYROX — AI toolkit for Termux/Android
  *
  * One command for everything:
- *   zyrox                  -> interactive menu (local AI, coding agents)
- *   zyrox install          -> download + install the ZYROX runtime
- *   zyrox update           -> update the ZYROX runtime
- *   zyrox uninstall        -> remove the ZYROX runtime
- *   zyrox status           -> installation status
- *   zyrox gemini [prompt]  -> chat with Google Gemini
+ *   toxic                  -> interactive menu (local AI, coding agents)
+ *   toxic install          -> download + install the ZYROX runtime
+ *   toxic update           -> update the ZYROX runtime
+ *   toxic uninstall        -> remove the ZYROX runtime
+ *   toxic status           -> installation status
+ *   toxic gemini [prompt]  -> chat with Google Gemini
  *                             (6 bundled API keys, auto-switch on expiry)
- *   zyrox <cmd> [args...]  -> forwarded to the local AI runtime
+ *   toxic <cmd> [args...]  -> forwarded to the local AI runtime
  *                             (serve, run, pull, list, launch, ps, stop, ...)
  *
  * Gemini auto key rotation:
@@ -107,28 +107,28 @@ function availableGeminiKeys() {
   return all;
 }
 
-const HELP_TEXT = `ZYROX v${ZYROX_VERSION} — AI toolkit for Termux
+const HELP_TEXT = `TOXIC v${ZYROX_VERSION} — ZYROX AGENT core — AI toolkit for Termux
 
 Usage:
-  zyrox                     Interactive menu (local models + coding agents)
-  zyrox install             Install / repair the ZYROX runtime
-  zyrox update              Update the ZYROX runtime
-  zyrox uninstall           Remove the ZYROX runtime
-  zyrox status              Show installation status
-  zyrox gemini [prompt]     Chat with Google Gemini (keys built-in)
-  zyrox help                Show this help
+  toxic                     Interactive menu (local models + coding agents)
+  toxic install             Install / repair the ZYROX runtime
+  toxic update              Update the ZYROX runtime
+  toxic uninstall           Remove the ZYROX runtime
+  toxic status              Show installation status
+  toxic gemini [prompt]     Chat with Google Gemini (keys built-in)
+  toxic help                Show this help
 
 Local AI (passed straight to the runtime):
-  zyrox serve               Start the local AI server (background: zyrox serve &)
-  zyrox pull <model>        Download a model   (e.g. zyrox pull qwen3.5:4b)
-  zyrox run <model>         Chat with a model (e.g. zyrox run qwen3.5:4b)
-  zyrox list                List installed models
-  zyrox launch <agent>      Launch a coding agent (qwen, codex, pi, ...)
-  zyrox ps / stop           Running models / stop them
+  toxic serve               Start the local AI server (background: toxic serve &)
+  toxic pull <model>        Download a model   (e.g. toxic pull qwen3.5:4b)
+  toxic run <model>         Chat with a model (e.g. toxic run qwen3.5:4b)
+  toxic list                List installed models
+  toxic launch <agent>      Launch a coding agent (qwen, codex, pi, ...)
+  toxic ps / stop           Running models / stop them
 
 Gemini cloud chat (auto key rotation):
-  zyrox gemini "explain quantum computing"
-  zyrox gemini                          # interactive chat
+  toxic gemini "explain quantum computing"
+  toxic gemini                          # interactive chat
   export GEMINI_MODEL="gemini-3.6-flash"  # (optional) model override
   export GEMINI_API_KEY="your-key"     # (optional) apni key — priority milti hai
                                         # 6 bundled keys auto-switch hoti hain:
@@ -137,7 +137,7 @@ Gemini cloud chat (auto key rotation):
 Docs: README.md  |  License: MIT`;
 
 function log(msg) {
-  console.log(`[zyrox] ${msg}`);
+  console.log(`[toxic] ${msg}`);
 }
 
 function isTermux() {
@@ -170,7 +170,7 @@ function fetchUrl(url) {
         return reject(new Error(`refusing non-HTTPS download URL: ${parsed.href}`));
       }
 
-      const req = https.get(parsed, { headers: { 'User-Agent': 'zyrox-installer' } }, (res) => {
+      const req = https.get(parsed, { headers: { 'User-Agent': 'toxic-installer' } }, (res) => {
         if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
           const next = new URL(res.headers.location, parsed).href;
           res.resume();
@@ -463,24 +463,24 @@ function installPayloadAtomically(extractedBin, extractedLib) {
 
 async function installRuntime() {
   if (!isTermux()) {
-    console.log('[zyrox] ZYROX runs on Termux (Android) only.');
+    console.log('[toxic] TOXIC runs on Termux (Android) only.');
     console.log('');
     console.log('Install Termux from F-Droid, then:');
     console.log('  pkg install nodejs-lts git -y');
-    console.log('  npm install -g github:<you>/zyrox');
-    console.log('  zyrox install');
+    console.log('  npm install -g github:zyroxteam/ZyroxAgentS');
+    console.log('  toxic install');
     return;
   }
 
   const version = runtimeVersion();
 
-  log(`Installing ZYROX runtime v${version}...`);
+  log(`Installing TOXIC runtime v${version}...`);
   log('');
 
   const tarballName = `ollama-termux-${version}-android-arm64.tar.gz`;
   const tmpBase = process.env.TMPDIR || os.tmpdir() || path.join(TERMUX_PREFIX, 'tmp');
   fs.mkdirSync(tmpBase, { recursive: true });
-  const tmpDir = fs.mkdtempSync(path.join(tmpBase, 'zyrox-install-'));
+  const tmpDir = fs.mkdtempSync(path.join(tmpBase, 'toxic-install-'));
 
   const tarballPath = path.join(tmpDir, tarballName);
 
@@ -522,7 +522,7 @@ async function installRuntime() {
     log('Installed wrapper: ' + OLLAMA_BIN);
 
     log('');
-    log('ZYROX installed successfully!');
+    log('TOXIC installed successfully!');
   } catch (e) {
     log(`Installation aborted: ${e.message}`);
     log('The matching GitHub Release and mandatory checksum must both exist.');
@@ -533,17 +533,17 @@ async function installRuntime() {
 
   log('');
   log('Quick start:');
-  log('  zyrox                  # interactive menu');
-  log('  zyrox serve &          # start the local AI server');
-  log('  zyrox pull qwen3.5:4b  # download a model (4GB+ RAM phones)');
-  log('  zyrox run qwen3.5:4b   # chat with it — fully offline');
-  log('  zyrox launch qwen      # coding agent (2000 free req/day)');
-  log('  zyrox gemini "hi"      # Gemini cloud (keys built-in)');
+  log('  toxic                  # interactive menu');
+  log('  toxic serve &          # start the local AI server');
+  log('  toxic pull qwen3.5:4b  # download a model (4GB+ RAM phones)');
+  log('  toxic run qwen3.5:4b   # chat with it — fully offline');
+  log('  toxic launch qwen      # coding agent (2000 free req/day)');
+  log('  toxic gemini "hi"      # Gemini cloud (keys built-in)');
 }
 
 function uninstallRuntime() {
   if (!isTermux()) {
-    console.log('[zyrox] Not running on Termux — nothing to uninstall.');
+    console.log('[toxic] Not running on Termux — nothing to uninstall.');
     return;
   }
   let removed = false;
@@ -565,7 +565,7 @@ function uninstallRuntime() {
       }
     }
   }
-  log(removed ? 'ZYROX runtime removed. (Models stay in ~/.ollama — delete it to free space.)'
+  log(removed ? 'TOXIC runtime removed. (Models stay in ~/.ollama — delete it to free space.)'
               : 'Runtime not found — already uninstalled.');
 }
 
@@ -573,10 +573,10 @@ function statusRuntime() {
   const keys = geminiApiKeys();
   const envKeys = keys.length - BUNDLED_GEMINI_KEYS.length;
   const cooling = keys.filter((k) => !keyAvailable(k)).length;
-  console.log(`ZYROX v${ZYROX_VERSION}`);
+  console.log(`TOXIC v${ZYROX_VERSION} — ZYROX AGENT core`);
   console.log(`Runtime version : ${runtimeVersion()}`);
   console.log(`Termux detected : ${isTermux() ? 'yes' : 'no'}`);
-  console.log(`Runtime binary  : ${isInstalled() ? 'installed (' + OLLAMA_REAL_BIN + ')' : 'not installed (run: zyrox install)'}`);
+  console.log(`Runtime binary  : ${isInstalled() ? 'installed (' + OLLAMA_REAL_BIN + ')' : 'not installed (run: toxic install)'}`);
   console.log(`Gemini keys     : ${keys.length} total (${envKeys} env + ${BUNDLED_GEMINI_KEYS.length} bundled)` +
     (cooling > 0 ? ` — ${cooling} cooling down` : ' — all ready'));
   console.log(`Auto key switch : ON (429/401/403 → next key, 60s cooldown)`);
@@ -686,7 +686,7 @@ async function geminiMain(promptArgs) {
   const keys = geminiApiKeys();
   const envKeys = keys.length - BUNDLED_GEMINI_KEYS.length;
 
-  // One-shot mode: zyrox gemini "question"
+  // One-shot mode: toxic gemini "question"
   if (promptArgs.length > 0) {
     const prompt = promptArgs.join(' ');
     try {
@@ -694,16 +694,16 @@ async function geminiMain(promptArgs) {
         { role: 'user', parts: [{ text: prompt }] },
       ]);
       console.log(text);
-      console.error(`\n[zyrox] ${model} · key ${maskKey(key)}`);
+      console.error(`\n[toxic] ${model} · key ${maskKey(key)}`);
     } catch (e) {
-      console.error(`[zyrox] ${e.message}`);
+      console.error(`[toxic] ${e.message}`);
       process.exitCode = 1;
     }
     return;
   }
 
   // Interactive chat mode
-  console.log('ZYROX Gemini chat');
+  console.log('TOXIC — ZYROX AGENT core · Gemini chat');
   console.log(`Keys: ${keys.length} (${envKeys} env + ${BUNDLED_GEMINI_KEYS.length} bundled) · auto-switch ON`);
   console.log(`Model: ${geminiModels().join(' → ')}`);
   console.log('Type your message. "exit" or Ctrl+C to quit.\n');
@@ -730,11 +730,11 @@ async function geminiMain(promptArgs) {
         console.log(text + '\n');
       } catch (e) {
         contents.pop(); // do not keep turns that failed
-        console.error(`\n[zyrox] ${e.message}\n`);
+        console.error(`\n[toxic] ${e.message}\n`);
       }
     }
   } finally {
-    if (activeModel) console.error(`[zyrox] session model: ${activeModel}`);
+    if (activeModel) console.error(`[toxic] session model: ${activeModel}`);
     rl.close();
   }
 }
@@ -753,7 +753,7 @@ const ZYROX_COMMANDS = new Set([
 
 function forwardToRuntime(args) {
   if (!isInstalled()) {
-    log('Runtime not installed. Run: zyrox install');
+    log('Runtime not installed. Run: toxic install');
     process.exitCode = 1;
     return;
   }
@@ -766,13 +766,13 @@ function forwardToRuntime(args) {
 
 async function main(argv) {
   if (argv.length === 0) {
-    // zyrox (no args): install on first run, otherwise open the menu.
+    // toxic (no args): install on first run, otherwise open the menu.
     if (!isInstalled() && isTermux()) {
       await installRuntime();
       return;
     }
     if (!isInstalled()) {
-      console.log('[zyrox] ZYROX runs on Termux (Android). Run: zyrox install');
+      console.log('[toxic] ZYROX runs on Termux (Android). Run: toxic install');
       return;
     }
     forwardToRuntime([]);
@@ -786,7 +786,7 @@ async function main(argv) {
       await installRuntime();
       return;
     case 'update':
-      log('Updating ZYROX runtime...');
+      log('Updating TOXIC runtime...');
       await installRuntime();
       return;
     case 'uninstall':
@@ -810,7 +810,7 @@ async function main(argv) {
 
 if (require.main === module) {
   main(process.argv.slice(2)).catch((e) => {
-    console.error('[zyrox] failed:', e.message);
+    console.error('[toxic] failed:', e.message);
     process.exit(1);
   });
 }
