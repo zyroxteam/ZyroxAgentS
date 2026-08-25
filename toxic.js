@@ -838,6 +838,10 @@ async function main(argv) {
     case '-h':
       console.log(HELP_TEXT);
       return;
+    case '-v':
+    case '--version':
+      console.log(`toxic v${ZYROX_VERSION} (ZYROX AGENT core)`);
+      return;
     default:
       forwardToRuntime(argv);
   }
