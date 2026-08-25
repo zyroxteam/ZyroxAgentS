@@ -623,6 +623,7 @@ function geminiRequest(model, apiKey, body) {
     const payload = JSON.stringify(body);
     const req = https.request({
       hostname: GEMINI_HOST,
+      family: 4, // IPv4 force — broken IPv6/NAT64 (64:ff9b::) mobile networks fix
       path: `/v1beta/models/${encodeURIComponent(model)}:generateContent`,
       method: 'POST',
       headers: {
@@ -652,6 +653,23 @@ function extractGeminiError(body) {
   }
 }
 
+const NETWORK_ERRORS = [
+  'ECONNABORTED', 'ETIMEDOUT', 'ECONNRESET', 'ENETUNREACH', 'EHOSTUNREACH',
+  'EAI_AGAIN', 'ECONNREFUSED', 'EPIPE', 'ESOCKETTIMEDOUT',
+];
+
+// Network glitch (2G/3G hop, IPv6 flap) — chhota pause lekar retry.
+function geminiRequestSafe(model, key, body, retries = 2) {
+  const attempt = (i) => geminiRequest(model, key, body).catch((e) => {
+    if (NETWORK_ERRORS.includes(e.code) && i < retries) {
+      return new Promise((resolve) => setTimeout(resolve, 800 * (i + 1)))
+        .then(() => attempt(i + 1));
+    }
+    throw e;
+  });
+  return attempt(0);
+}
+
 async function geminiChatOnce(contents) {
   const models = keyPool.sticky
     ? [keyPool.sticky.model, ...geminiModels().filter((m) => m !== keyPool.sticky.model)]
@@ -665,7 +683,16 @@ async function geminiChatOnce(contents) {
   let lastError = 'no key/model attempted';
   for (const key of keys) {
     for (const model of models) {
-      const res = await geminiRequest(model, key, { contents });
+      let res;
+      try {
+        res = await geminiRequestSafe(model, key, { contents });
+      } catch (e) {
+        if (NETWORK_ERRORS.includes(e.code)) {
+          lastError = `network glitch (${e.code}) — agli key/model try kar raha hoon`;
+          continue; // next model/key — network issue ho sakta hai key-specific nahi
+        }
+        throw e;
+      }
       if (res.status === 200) {
         let parsed;
         try {
@@ -700,7 +727,7 @@ async function geminiChatOnce(contents) {
       throw new Error(`Gemini HTTP ${res.status}: ${extractGeminiError(res.body)}`);
     }
   }
-  throw new Error(lastError);
+  throw new Error(lastError + ' | network issue? WiFi try karo ya GEMINI_API_KEY set karo');
 }
 
 async function geminiMain(promptArgs) {
