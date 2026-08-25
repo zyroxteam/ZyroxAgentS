@@ -1,18 +1,23 @@
 <div align="center">
 
-<img src="assets/logo.svg" width="180" alt="ZYROX">
+<img src="assets/banner.png" width="100%" alt="ZYROX AGENT">
 
-# ⚡ ZYROX
+[![Termux](https://img.shields.io/badge/Platform-Termux%20%7C%20Android-22c55e?style=for-the-badge&logo=android&logoColor=white)](https://termux.dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-8b5cf6?style=for-the-badge)](LICENSE)
+[![Release](https://img.shields.io/badge/Version-1.0.0-06b6d4?style=for-the-badge)](CHANGELOG.md)
+[![Zero Dependencies](https://img.shields.io/badge/npm-0%20deps-f59e0b?style=for-the-badge)](package.json)
 
-**AI toolkit for Termux — ek command, sab kuch.**
+**⚡ AI toolkit for Termux — ek command, sab kuch.**
 
-Local LLMs phone par (100% offline) + Google Gemini cloud chat
+Local LLMs phone par (100% offline) · Gemini cloud chat · Coding agents
 
 `Android` · `ARM64` · `No root` · `MIT License`
 
 </div>
 
 ---
+
+</br>
 
 ## ✨ ZYROX kya hai?
 
@@ -29,7 +34,7 @@ Local LLMs phone par (100% offline) + Google Gemini cloud chat
 ```bash
 pkg update && pkg upgrade -y
 pkg install nodejs-lts git -y
-npm install -g github:GITHUB_USER/ZyroxAgentS
+npm install -g github:zyroxteam/ZyroxAgentS
 zyrox install
 ```
 

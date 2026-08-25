@@ -14,14 +14,14 @@
     "gemini",
     "ollama"
   ],
-  "homepage": "https://github.com/GITHUB_USER/ZyroxAgentS#readme",
+  "homepage": "https://github.com/zyroxteam/ZyroxAgentS#readme",
   "bugs": {
-    "url": "https://github.com/GITHUB_USER/ZyroxAgentS/issues"
+    "url": "https://github.com/zyroxteam/ZyroxAgentS/issues"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GITHUB_USER/ZyroxAgentS.git"
+    "url": "git+https://github.com/zyroxteam/ZyroxAgentS.git"
   },
   "engines": {
     "node": ">=18"
