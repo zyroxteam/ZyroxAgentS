@@ -44,6 +44,8 @@ Bas! Ab `toxic` type karo.
 
 ## 🚀 Usage
 
+> ⚠️ **Important:** Menu mein `:cloud` wale models (jaise `gemini-3-flash-preview:cloud`) **paid Ollama subscription** maangte hain (403 error) aur kuch retire ho chuke hain (410 error). **Free ke liye:** local models ya `toxic gemini` use karo.
+
 ### 1️⃣ Local AI (offline, free)
 
 ```bash
@@ -94,7 +96,8 @@ toxic launch pi        # Pi agent
 ### 4️⃣ Menu
 
 ```bash
-toxic                  # interactive menu — sab options ek jagah
+toxic menu             # original interactive menu (agents ke liye)
+toxic chat             # seedha Gemini chat
 toxic status           # installation status
 toxic help             # all commands
 toxic update           # runtime update

@@ -42,6 +42,23 @@ const OLLAMA_BIN = path.join(TERMUX_PREFIX, 'bin', 'ollama');
 const OLLAMA_LIB = path.join(TERMUX_PREFIX, 'lib', 'ollama');
 const OLLAMA_REAL_BIN = path.join(OLLAMA_LIB, 'ollama');
 
+// Local model manifests (filesystem check — server ki zaroorat nahi).
+function localModelCount() {
+  const home = process.env.HOME || path.join(TERMUX_PREFIX, '..', 'home');
+  const manifests = path.join(home, '.ollama', 'models', 'manifests');
+  let count = 0;
+  const walk = (dir) => {
+    try {
+      for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+        if (e.isDirectory()) walk(path.join(dir, e.name));
+        else if (e.isFile()) count++;
+      }
+    } catch { /* ignore */ }
+  };
+  walk(manifests);
+  return count;
+}
+
 // Gemini (cloud) defaults — override with GEMINI_MODEL.
 const GEMINI_HOST = 'generativelanguage.googleapis.com';
 const GEMINI_FALLBACK_MODELS = ['gemini-3.6-flash', 'gemini-flash-latest', 'gemini-2.5-flash'];
@@ -110,12 +127,14 @@ function availableGeminiKeys() {
 const HELP_TEXT = `TOXIC v${ZYROX_VERSION} — ZYROX AGENT core — AI toolkit for Termux
 
 Usage:
-  toxic                     Interactive menu (local models + coding agents)
+  toxic                     Smart start: local models ho toh menu, warna FREE Gemini chat
   toxic install             Install / repair the ZYROX runtime
   toxic update              Update the ZYROX runtime
   toxic uninstall           Remove the ZYROX runtime
   toxic status              Show installation status
-  toxic gemini [prompt]     Chat with Google Gemini (keys built-in)
+  toxic gemini [prompt]     Chat with Google Gemini (6 keys built-in)
+  toxic chat                Same as gemini (interactive)
+  toxic menu                Original interactive menu (agents ke liye)
   toxic help                Show this help
 
 Local AI (passed straight to the runtime):
@@ -577,6 +596,7 @@ function statusRuntime() {
   console.log(`Runtime version : ${runtimeVersion()}`);
   console.log(`Termux detected : ${isTermux() ? 'yes' : 'no'}`);
   console.log(`Runtime binary  : ${isInstalled() ? 'installed (' + OLLAMA_REAL_BIN + ')' : 'not installed (run: toxic install)'}`);
+  console.log(`Local models    : ${localModelCount()} (cloud models avoid karo — subscription chahiye)`);
   console.log(`Gemini keys     : ${keys.length} total (${envKeys} env + ${BUNDLED_GEMINI_KEYS.length} bundled)` +
     (cooling > 0 ? ` — ${cooling} cooling down` : ' — all ready'));
   console.log(`Auto key switch : ON (429/401/403 → next key, 60s cooldown)`);
@@ -766,16 +786,29 @@ function forwardToRuntime(args) {
 
 async function main(argv) {
   if (argv.length === 0) {
-    // toxic (no args): install on first run, otherwise open the menu.
-    if (!isInstalled() && isTermux()) {
-      await installRuntime();
+    // toxic (no args): smart start — jo kaam karta hai wahi khulega.
+    if (!isTermux()) {
+      console.log('[toxic] TOXIC runs on Termux (Android). Run: toxic install');
       return;
     }
     if (!isInstalled()) {
-      console.log('[toxic] ZYROX runs on Termux (Android). Run: toxic install');
+      await installRuntime();
       return;
     }
-    forwardToRuntime([]);
+    const models = localModelCount();
+    if (models > 0) {
+      // Local models maujood hain — full menu kholo (cloud models skip karo!).
+      log(`${models} local model(s) mile — menu khol raha hoon...`);
+      log('Tip: cloud (:cloud) models ke liye Ollama subscription chahiye — local ya gemini use karo.');
+      forwardToRuntime([]);
+      return;
+    }
+    // Koi local model nahi + cloud broken — Gemini chat se shuru karo (bundled keys, free).
+    console.log('');
+    log('koi local model nahi mila — FREE Gemini chat shuru kar raha hoon (6 keys bundled)');
+    log('local model chahiye toh: toxic pull qwen3.5:4b  |  full menu: toxic menu');
+    console.log('');
+    await geminiMain([]);
     return;
   }
 
@@ -792,11 +825,16 @@ async function main(argv) {
     case 'uninstall':
       uninstallRuntime();
       return;
-    case 'status':
-      statusRuntime();
+    case 'menu':
+      // Original interactive menu (local models + agents).
+      forwardToRuntime([]);
       return;
+    case 'chat':
     case 'gemini':
       await geminiMain(rest);
+      return;
+    case 'status':
+      statusRuntime();
       return;
     case 'help':
     case '--help':

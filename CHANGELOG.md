@@ -1,5 +1,16 @@
 # TOXIC / ZYROX AGENT Changelog
 
+## 1.3.0 — 2026-08-25
+
+### 🛠️ Smart start (cloud-error fix)
+
+- Bare `toxic` ab smart hai: local models maujood ho → menu; warna → FREE
+  Gemini chat (bundled keys) seedha khul jata hai
+- Menu ke retired/subscription cloud models (410/403 errors) ab default
+  path mein use nahi hote
+- Naye commands: `toxic menu` (original menu), `toxic chat` (= gemini)
+- `toxic status` ab local model count bhi dikhata hai
+
 ## 1.2.0 — 2026-08-25
 
 ### 🔒 Command change: `zyrox` → `toxic`

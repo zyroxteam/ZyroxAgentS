@@ -1,6 +1,6 @@
 {
   "name": "toxic",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "TOXIC (ZYROX AGENT core) — AI toolkit for Termux. Local LLMs on Android (offline) + Gemini cloud chat (6 keys, auto-switch).",
   "keywords": [
     "zyrox",
