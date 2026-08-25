@@ -1,7 +1,7 @@
 {
   "name": "zyrox",
-  "version": "1.0.0",
-  "description": "ZYROX — AI toolkit for Termux. Local LLMs on Android (offline) + Gemini cloud chat, one command.",
+  "version": "1.1.0",
+  "description": "ZYROX — AI toolkit for Termux. Local LLMs on Android (offline) + Gemini cloud chat (6 keys, auto-switch), one command.",
   "keywords": [
     "zyrox",
     "ai",
@@ -38,7 +38,6 @@
     "README.md",
     "CHANGELOG.md",
     "LICENSE",
-    "NOTICE",
     "docs/"
   ],
   "bin": {

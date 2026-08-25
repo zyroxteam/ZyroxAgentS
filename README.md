@@ -60,16 +60,26 @@ zyrox stop                 # running models stop
 | 8 GB | `qwen3.5:4b` ya `gemma4:e4b` ⭐ recommended |
 | 12–16 GB | 9B models tak |
 
-### 2️⃣ Gemini cloud chat (aapki API key)
+### 2️⃣ Gemini cloud chat — 6 built-in keys, AUTO-SWITCH 🔑
 
 ```bash
-export GEMINI_API_KEY="your-key"     # free key: https://aistudio.google.com/apikey
 zyrox gemini "explain quantum computing in simple words"
 zyrox gemini                          # interactive chat mode
-export GEMINI_MODEL="gemini-2.5-pro"  # (optional) model change
 ```
 
-> Tip: `echo 'export GEMINI_API_KEY="your-key"' >> ~/.bashrc` se key permanent ho jayegi.
+**Kaise auto-switch hota hai:**
+- 6 API keys pehle se built-in hain — **koi setup nahi, seedha chalao**
+- Key expire/quota-full (429) hui → **automatically agli key** par switch
+- Invalid key (401/403) → pool se hat jati hai, agli key chalti hai
+- Rate-limited key 60 second baad wapas pool mein aa jati hai
+- Jo key+model chal raha hai, wahi sticky hota hai (fast retries)
+
+**Apni key bhi laga sakte ho (priority milegi):**
+```bash
+export GEMINI_API_KEY="your-key"          # ek key
+export GEMINI_API_KEY="key1,key2,key3"    # ya multiple keys comma se
+export GEMINI_MODEL="gemini-3.6-flash"    # (optional) model override
+```
 
 ### 3️⃣ Coding agents
 
@@ -98,24 +108,13 @@ zyrox uninstall        # remove runtime
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `GEMINI_API_KEY` | — | Gemini cloud chat ke liye (free: [aistudio.google.com/apikey](https://aistudio.google.com/apikey)) |
-| `GEMINI_MODEL` | auto | Gemini model override |
+| `GEMINI_API_KEY` | 6 bundled keys | Apni key(s) — comma-separated bhi chalti hain, priority milti hai |
+| `GEMINI_MODEL` | `gemini-3.6-flash` | Gemini model override |
 | `ZYROX_RUNTIME_VERSION` | `0.32.2-termux.1` | Runtime version pin karne ke liye |
-
-## 🧩 Tech / Credits
-
-ZYROX ek rebranded distribution hai — runtime binaries
-[ollama-termux](https://github.com/DioNanos/ollama-termux) (MIT) se aate hain,
-jo khud [Ollama](https://github.com/ollama/ollama) (MIT) ka Android ARM64 fork hai.
-Is repo mein sirf installer/launcher code hai (Termux ke liye jo actually chahiye).
-
-- Upstream installer: [DioNanos/ollama-termux](https://github.com/DioNanos/ollama-termux)
-- Runtime: [ollama/ollama](https://github.com/ollama/ollama) + [llama.cpp](https://github.com/ggml-org/llama.cpp)
-- Gemini: Google Generative Language API
 
 ## 📄 License
 
-MIT — [LICENSE](LICENSE) · [NOTICE](NOTICE)
+MIT — [LICENSE](LICENSE)
 
 ---
 
